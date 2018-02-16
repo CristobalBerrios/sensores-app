@@ -25,7 +25,7 @@
       </v-data-table>
       </v-flex>
 
-      <v-btn fab dark color="green darken-1" class="btn-flotante" @click="dialog = true">
+      <v-btn style="position: fixed;" fab dark color="green darken-1" class="btn-flotante" @click="dialog = true">
         <v-icon dark>add</v-icon>
       </v-btn>
 
