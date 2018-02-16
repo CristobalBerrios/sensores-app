@@ -21,7 +21,7 @@
           v-for="(sensor, index) in sensores"
           :title="sensor.name"
           :position="sensor.position"
-          :icon="{url:'static/map-pin.png'}"
+          :icon="{url:iconMarker}"
           :clickable="true"
           :draggable="true">
           </gmap-marker>
@@ -34,6 +34,7 @@
 <script>
 import MonitoreoCard from '@/components/Simulator/MonitoreoCard'
 import {sensorService} from '@/services/Sensor.service'
+import iconMarker from '@/assets/map-pin.png'
 export default {
   data () {
     return {
@@ -42,7 +43,8 @@ export default {
           lat: Number,
           lng: Number
         }
-      }
+      },
+      iconMarker: iconMarker
     }
   },
   components: {MonitoreoCard},
