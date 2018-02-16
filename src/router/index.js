@@ -1,7 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import PublicApp from '@/components/Public/App'
-import StartPage from '@/components/Public/StartPage'
 import Login from '@/components/Public/Login'
 import AdminApp from '@/components/Admin/App'
 import Sensor from '@/components/Sensor/Sensor'
@@ -16,19 +14,12 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      component: PublicApp,
-      children: [
-        {
-          path: '/',
-          name: 'startPage',
-          component: StartPage
-        },
-        {
-          path: '/login',
-          name: 'login',
-          component: Login
-        }
-      ]
+      redirect: '/login'
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login
     },
     {
       path: '/admin',
