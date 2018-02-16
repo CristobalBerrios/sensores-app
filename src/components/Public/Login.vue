@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <v-content>
     <v-card color="grey lighten-5" flat>
       <v-toolbar dark color="myToolbar green darken-1" flat extended>
         <v-layout>
@@ -37,7 +37,7 @@
       {{ snack.message }}
       <v-btn flat color="white" @click.native="snack.model = false">Cerrar</v-btn>
     </v-snackbar>
-  </section>  
+  </v-content>  
 </template>
 
 <script>
