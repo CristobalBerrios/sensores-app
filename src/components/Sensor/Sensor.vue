@@ -1,4 +1,5 @@
 <template>
+<section>
   <v-card class="card-content elevation-3">
     <v-layout row wrap>
       <v-flex xs10>
@@ -24,18 +25,19 @@
         </template>
       </v-data-table>
       </v-flex>
-
-      <v-btn style="position: fixed;" fab dark color="green darken-1" class="btn-flotante" @click="dialog = true">
-        <v-icon dark>add</v-icon>
-      </v-btn>
-
-      <sensor-form 
-      :dialog="dialog"
-      @newSensor="pushSensor"
-      @closeDialog="dialog = false">
-      </sensor-form>
     </v-layout>
   </v-card>
+
+  <v-btn style="position: fixed;" fab dark color="green darken-1" class="btn-flotante" @click="dialog = true">
+    <v-icon dark>add</v-icon>
+  </v-btn>
+
+  <sensor-form 
+    :dialog="dialog"
+    @newSensor="pushSensor"
+    @closeDialog="dialog = false">
+  </sensor-form>
+</section>
 </template>
 
 <script>
