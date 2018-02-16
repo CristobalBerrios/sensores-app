@@ -39,12 +39,6 @@ export default {
 
 
 <style>
-.btn-flotante {
-    position: fixed;
-    right: 8px;
-    bottom: 8px;
-}
-
 .card-content {
   min-height: 400px;
   padding: 20px;
