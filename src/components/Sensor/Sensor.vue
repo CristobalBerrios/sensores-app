@@ -28,7 +28,7 @@
     </v-layout>
   </v-card>
 
-  <v-btn style="position: fixed;" fab dark color="green darken-1" class="btn-flotante" @click="dialog = true">
+  <v-btn fab dark color="green darken-1" class="btn-flotante" @click="dialog = true">
     <v-icon dark>add</v-icon>
   </v-btn>
 
@@ -79,6 +79,11 @@ export default {
 </script>
 
 <style scoped>
+.btn-flotante {
+    position: fixed;
+    right: 8px;
+    bottom: 8px;
+}
 a {
   color:rgba(0,0,0,.87);
 }
