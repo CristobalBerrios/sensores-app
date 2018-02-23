@@ -4,7 +4,7 @@
       <v-toolbar-title>Sysmos SpA</v-toolbar-title>
       <v-toolbar-items class="hidden-xs-and-down">
         <v-btn @click="go('heartBeat')" flat>Heartbeat</v-btn>
-        <v-btn @click="go('simulator')" flat>Simulador</v-btn>
+        <v-btn @click="go('simulator')" flat>Monitor</v-btn>
       </v-toolbar-items>
       <v-spacer></v-spacer>
       <v-btn @click="logout" flat>Cerrar Sesion
