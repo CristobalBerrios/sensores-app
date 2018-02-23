@@ -24,7 +24,8 @@
               <v-text-field type="number" v-model="sensor.position.lng" label="Longitud" color="green darken-1" required></v-text-field>
             </v-flex>
             <v-flex xs12>
-              <v-btn block color="green darken-1" dark @click="submitSensor(sensor)">Agregar</v-btn>
+              <v-btn :loading="loading" v-if="title === 'Nuevo HeartBeat'" block color="green darken-1" dark @click="submitSensor(sensor)">Agregar</v-btn>
+              <v-btn v-else block color="green darken-1" dark @click="updateSensor(sensor)">Actualizar</v-btn>
             </v-flex>
           </v-layout>
         </v-container>
@@ -45,16 +46,42 @@ export default {
           lng: Number
         }
       },
-      title: 'Nuevo HeartBeat'
+      title: '',
+      loading: false
     }
+  },
+  created () {
+    let vm = this
+    vm.$parent.$on('crear', () => {
+      vm.title = 'Nuevo HeartBeat'
+    })
+
+    vm.$parent.$on('editar', sensor => {
+      vm.title = 'Editar HeartBeat'
+      vm.sensor = sensor
+    })
   },
   props: ['dialog'],
   methods: {
+    newSensor (sensor) {
+      let vm = this
+      vm.sensor = sensor
+    },
     submitSensor (model) {
       let vm = this
+      vm.loading = true
       sensorService.save(model).then(data => {
         vm.$emit('newSensor', data.body.sensor)
         vm.closeDialog()
+      })
+    },
+    updateSensor (sensor) {
+      let vm = this
+      vm.loading = true
+      sensorService.update(sensor._id, sensor).then(data => {
+        console.log(data)
+        vm.$emit('updateSensor')
+        vm.$emit('closeDialog')
       })
     },
     closeDialog () {
