@@ -1,7 +1,7 @@
 <template>
   <v-card color="grey darken-2" dark>
     <v-toolbar flat dark color="grey darken-3" dark>
-      <v-toolbar-title>Ultimo Evento Detectado </v-toolbar-title>
+      <v-toolbar-title>ULTIMO EVENTO DETECTADO</v-toolbar-title>
     </v-toolbar>
     <v-container fluid grid-list-xs>
       <v-layout row wrap>
