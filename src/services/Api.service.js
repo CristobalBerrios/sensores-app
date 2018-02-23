@@ -26,7 +26,7 @@ class ApiConnect {
     return this.resource.update({id}, model)
   }
   destroy (id) {
-    return this.resource.delete({id})
+    return this.resource.delete({id: id})
   }
 }
 
