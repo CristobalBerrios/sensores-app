@@ -3,7 +3,7 @@
   <v-card class="card-content elevation-3">
     <v-layout row wrap>
       <v-flex xs10>
-        <h1 class="display-1">HEARTBEAT SYSMOS</h1>
+        <h1 class="display-1">HEARTBEAT</h1>
       </v-flex>
       <v-flex xs2>
         <p>Actualizado hace 1 minuto</p>
@@ -22,25 +22,59 @@
           <td class="text-xs-left"><a target="_blank" :href="'https://www.google.com/maps/?q=' +props.item.position.lat + ','+ props.item.position.lng ">{{ props.item.position.lat }} , {{props.item.position.lng}}</a></td>
           <td class="text-xs-left">08/02/2018 11:05 AM</td>
           <td class="text-xs-left">03/02/2018 03:43 AM</td>
+          <td class="text-xs-left">
+            <v-btn @click="showForm(props.item)" fab dark small color="green">
+              <v-icon dark>edit</v-icon>
+            </v-btn>
+            <v-btn @click="sensor = props.item; dlgEliminarSensor = true" fab dark small color="red">
+              <v-icon dark>delete</v-icon>
+            </v-btn>
+          </td> 
         </template>
       </v-data-table>
       </v-flex>
     </v-layout>
   </v-card>
 
-  <v-btn fab dark color="green darken-1" class="btn-flotante" @click="dialog = true">
+  <v-btn fab dark color="green darken-1" class="btn-flotante" @click="showForm()">
     <v-icon dark>add</v-icon>
   </v-btn>
+
+  <v-snackbar
+    :timeout="4000"
+    v-model="snackBar.model"
+    color="success">
+    {{ snackBar.message }}
+    <v-btn flat color="white" @click.native="snackBar.model = false">Cerrar</v-btn>
+  </v-snackbar>
+
+
+  <v-dialog v-model="dlgEliminarSensor" persistent max-width="350px">
+    <v-card>
+        <v-card-title primary-title>
+          <div>
+            <h3 class="headline mb-0">Eliminar HeartBeat</h3>
+            <div>Esta seguro de eliminar el Heartbeat {{sensor.name}}</div>
+          </div>
+        </v-card-title>
+        <v-card-actions>
+          <v-btn @click="deleteSensor(sensor)" flat color="green">Confirmar</v-btn>
+          <v-btn @click="dlgEliminarSensor = false" flat color="red">Cancelar</v-btn>
+        </v-card-actions>
+      </v-card>
+  </v-dialog>
 
   <sensor-form 
     :dialog="dialog"
     @newSensor="pushSensor"
+    @updateSensor="getSensores"
     @closeDialog="dialog = false">
   </sensor-form>
 </section>
 </template>
 
 <script>
+import Vue from 'vue'
 import {sensorService} from '@/services/Sensor.service'
 import SensorForm from '@/components/Sensor/SensorForm'
 export default {
@@ -55,7 +89,13 @@ export default {
         {text: 'Ultima Alerta', align: 'left', sortable: false, value: 'last_alert'}
       ],
       sensores: [],
-      dialog: false
+      sensor: {},
+      dialog: false,
+      dlgEliminarSensor: false,
+      snackBar: {
+        model: false,
+        message: ''
+      }
     }
   },
   components: {SensorForm},
@@ -73,6 +113,26 @@ export default {
     pushSensor (sensor) {
       let vm = this
       vm.sensores.push(sensor)
+    },
+    deleteSensor (sensor) {
+      let vm = this
+      vm.dlgEliminarSensor = false
+      sensorService.destroy(sensor._id).then(response => {
+        console.log(response)
+        vm.getSensores()
+        vm.showSnackBar('El heartbeat ' + sensor.name + ' fue eliminado')
+      })
+    },
+    showForm (sensor) {
+      let vm = this
+      if (sensor) vm.$emit('editar', Vue.util.extend({}, sensor))
+      else vm.$emit('crear')
+      vm.dialog = true
+    },
+    showSnackBar (message) {
+      let vm = this
+      vm.snackBar.message = message
+      vm.snackBar.model = true
     }
   }
 }
