@@ -19,7 +19,7 @@
           <td class="text-xs-lefts">{{ props.item.name }}</td>
           <td class="text-xs-left"><v-btn style="margin:0px;" small round color="green" dark>Online</v-btn></td>
           <td class="text-xs-left">{{ props.item.id }}</td>
-          <td class="text-xs-left"><a target="_blank" :href="'https://www.google.com/maps/?q=' +props.item.position.lat + ','+ props.item.position.lng ">{{ props.item.position.lat }} , {{props.item.position.lng}}</a></td>
+          <td class="text-xs-left"><a class="my-link" target="_blank" :href="'https://www.google.com/maps/?q=' +props.item.position.lat + ','+ props.item.position.lng ">{{ props.item.position.lat }} , {{props.item.position.lng}}</a></td>
           <td class="text-xs-left">08/02/2018 11:05 AM</td>
           <td class="text-xs-left">03/02/2018 03:43 AM</td>
           <td class="text-xs-left">
@@ -144,7 +144,7 @@ export default {
     right: 8px;
     bottom: 8px;
 }
-a {
+.my-link {
   color:rgba(0,0,0,.87);
 }
 a:hover {
