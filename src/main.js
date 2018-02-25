@@ -7,6 +7,9 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import * as VueGoogleMaps from 'vue2-google-maps'
 import InterceptorApi from '@/services/Interceptor.service'
+import moment from 'moment'
+
+Vue.prototype.moment = moment
 
 Vue.use(VueGoogleMaps, {
   load: {
