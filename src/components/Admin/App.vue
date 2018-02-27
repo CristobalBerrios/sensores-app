@@ -61,7 +61,7 @@ export default {
   position: relative;
 }
 .toolbar-title {
-  margin-left: 0px;
+  margin-left: 0px !important;
   margin-right: 50px;
   font-size: 23px;
 }
