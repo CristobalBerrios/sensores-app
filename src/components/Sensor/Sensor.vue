@@ -23,7 +23,7 @@
           <td class="text-xs-left">08/02/2018 11:05 AM</td>
           <td class="text-xs-left">03/02/2018 03:43 AM</td>
           <td class="text-xs-left">
-            <v-btn @click="showForm(props.item)" fab dark small color="green">
+            <v-btn @click="showForm(props.item)" fab dark small color="light-blue darken-1">
               <v-icon dark>edit</v-icon>
             </v-btn>
             <v-btn @click="sensor = props.item; dlgEliminarSensor = true" fab dark small color="red">
@@ -36,7 +36,7 @@
     </v-layout>
   </v-card>
 
-  <v-btn fab dark color="green darken-1" class="btn-flotante" @click="showForm()">
+  <v-btn fab dark color="light-blue darken-3" class="btn-flotante" @click="showForm()">
     <v-icon dark>add</v-icon>
   </v-btn>
 
@@ -86,7 +86,8 @@ export default {
         {text: 'ID No.', align: 'left', sortable: false, value: 'id'},
         {text: 'Geolocalización', align: 'left', sortable: false, value: 'latitude'},
         {text: 'Ultima Conexión', align: 'left', sortable: false, value: 'last_connection'},
-        {text: 'Ultima Alerta', align: 'left', sortable: false, value: 'last_alert'}
+        {text: 'Ultima Alerta', align: 'left', sortable: false, value: 'last_alert'},
+        {text: '', align: 'left', sortable: false}
       ],
       sensores: [],
       sensor: {},
