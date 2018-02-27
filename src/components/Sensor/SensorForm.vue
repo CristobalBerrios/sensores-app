@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" persistent max-width="500px">
     <v-card>
-      <v-toolbar flat dark color="green darken-1" dark>
+      <v-toolbar flat dark color="light-blue darken-2" dark>
         <v-toolbar-title> {{ title}} </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon @click="closeDialog()">
@@ -24,8 +24,8 @@
               <v-text-field type="number" v-model="sensor.position.lng" label="Longitud" color="green darken-1" required></v-text-field>
             </v-flex>
             <v-flex xs12>
-              <v-btn :loading="loading" v-if="title === 'Nuevo HeartBeat'" block color="green darken-1" dark @click="submitSensor(sensor)">Agregar</v-btn>
-              <v-btn v-else block color="green darken-1" dark @click="updateSensor(sensor)">Actualizar</v-btn>
+              <v-btn :loading="loading" v-if="title === 'Nuevo HeartBeat'" block color="light-blue darken-2" dark @click="submitSensor(sensor)">Agregar</v-btn>
+              <v-btn v-else block color="light-blue darken-2" dark @click="updateSensor(sensor)">Actualizar</v-btn>
             </v-flex>
           </v-layout>
         </v-container>
