@@ -6,9 +6,9 @@
     <v-container fluid grid-list-xs>
       <v-layout row wrap>
         <v-flex xs8 offset-xs2>
-          <h1 v-if="intensity < 5" class="text-xs-center display-4 green--text">{{ intensity }}</h1>
-          <h1 v-if="intensity >= 5 && intensity < 8" class="text-xs-center display-4 yellow--text">{{ intensity }}</h1>
-          <h1 v-if="intensity >= 8" class="text-xs-center display-4 red--text">{{ intensity }}</h1>
+          <h1 v-if="intensity === 'I' || 'II' || 'III' || 'IV'" class="text-xs-center display-4 green--text">{{ intensity }}</h1>
+          <h1 v-else-if="intensity === 'V' || 'VI' || 'VII'" class="text-xs-center display-4 yellow--text">{{ intensity }}</h1>
+          <h1 v-else class="text-xs-center display-4 red--text">{{ intensity }}</h1>
           <h1 class="text-xs-center">Mercalli</h1>
         </v-flex>
         <v-flex xs12>
