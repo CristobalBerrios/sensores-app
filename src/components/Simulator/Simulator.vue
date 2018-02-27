@@ -7,9 +7,6 @@
       <v-flex xs12 md4 lg4>
         <v-layout row wrap>
           <v-flex xs12>
-            <p class="title-scale">Escala Mercalli (Numérica)</p>
-          </v-flex>
-          <v-flex xs12>
             <img :src="scale" width="100%" alt="">
           </v-flex>
         </v-layout>
@@ -17,7 +14,7 @@
       <v-flex xs12 md4>
         <v-card class="frame elevation-3">
           <monitoreo-card 
-          :intensity="last_event.intensity"
+          :intensity="convertToRoman(last_event.intensity)"
           :date="moment(last_event.date).format('DD-MM-YYYY')"
           :hour="moment(last_event.date).format('hh:mm A')"
           style="margin: 2px;">
@@ -66,7 +63,7 @@
         <template slot="items" slot-scope="props">
           <td class="text-xs-lefts">{{ moment(props.item.date).format('DD-MM-YYYY') }}</td>
           <td class="text-xs-left">{{  moment(props.item.date).format('hh:mm A') }}</td>
-          <td class="text-xs-left">{{ props.item.intensity }}</td>
+          <td class="text-xs-left">{{ convertToRoman(props.item.intensity) }}</td>
           <td class="text-xs-left">{{ props.item.sensors.length }}</td>
         </template>
       </v-data-table>
@@ -81,7 +78,7 @@ import {sensorService} from '@/services/Sensor.service'
 import {eventService} from '@/services/Event.service'
 import iconGreen from '@/assets/marker-green.png'
 import iconRed from '@/assets/marker-red.png'
-import Scale from '@/assets/escala.png'
+import Scale from '@/assets/escala-intensidad.png'
 export default {
   data () {
     return {
@@ -135,6 +132,19 @@ export default {
       })
 
       return is
+    },
+    convertToRoman (intensity) {
+      let num = parseInt(intensity)
+      let lookup = {M: 1000, CM: 900, D: 500, CD: 400, C: 100, XC: 90, L: 50, XL: 40, X: 10, IX: 9, V: 5, IV: 4, I: 1}
+      let roman = ''
+      let i
+      for (i in lookup) {
+        while (num >= lookup[i]) {
+          roman += i
+          num -= lookup[i]
+        }
+      }
+      return roman
     }
   }
 }
