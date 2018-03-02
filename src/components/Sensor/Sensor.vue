@@ -2,14 +2,17 @@
 <section>
   <v-card class="card-content elevation-3">
     <v-layout row wrap>
-      <v-flex xs10>
+      <v-flex md10 xs12>
         <h1 class="display-1">HEARTBEAT</h1>
       </v-flex>
-      <v-flex xs2>
+      <v-flex md2 xs12>
         <p>Actualizado hace 1 minuto</p>
       </v-flex>
       <v-flex xs12>
-        <br>
+        <v-flex offset-md9 md3 xs12>
+          <v-btn @click="submitHistorical" small round dark color="green">Enviar Informacion</v-btn>
+          <v-btn @click="dlgCluster = true" small round dark color="light-blue darken-2">Clusters</v-btn>
+        </v-flex>
         <v-data-table
         :headers="headers"
         :items="sensores"
@@ -17,11 +20,20 @@
         class="elevation-1">
         <template slot="items" slot-scope="props">
           <td class="text-xs-lefts">{{ props.item.name }}</td>
-          <td class="text-xs-left"><v-btn style="margin:0px;" small round color="green" dark>Online</v-btn></td>
+          <td class="text-xs-left">
+            <v-btn v-if="props.item.isOnline" style="margin:0px;" small round color="green" dark>Online</v-btn>
+            <v-btn v-else style="margin:0px;" small round color="red" dark>Offline</v-btn>
+          </td>
           <td class="text-xs-left">{{ props.item.id }}</td>
           <td class="text-xs-left"><a class="my-link" target="_blank" :href="'https://www.google.com/maps/?q=' +props.item.position.lat + ','+ props.item.position.lng ">{{ props.item.position.lat }} , {{props.item.position.lng}}</a></td>
-          <td class="text-xs-left">08/02/2018 11:05 AM</td>
-          <td class="text-xs-left">03/02/2018 03:43 AM</td>
+          <td v-if ="props.item.last_connection" class="text-xs-left">
+            {{ moment(props.item.last_connection).format('DD-MM-YYYY')}} - {{ moment(props.item.last_connection).format('hh:mm A') }}
+          </td>
+          <td v-else class="text-xs-left">No ha tenido Conexión</td>
+          <td v-if ="props.item.last_event" class="text-xs-left">
+            {{ moment(props.item.last_event).format('DD-MM-YYYY') }} - {{ moment(props.item.last_event).format('hh:mm A') }}
+          </td>
+          <td v-else class="text-xs-left">No tiene Alertas</td>
           <td class="text-xs-left">
             <v-btn @click="showForm(props.item)" fab dark small color="light-blue darken-1">
               <v-icon dark>edit</v-icon>
@@ -42,6 +54,7 @@
 
   <v-snackbar
     :timeout="4000"
+    :top="snackBar.top"
     v-model="snackBar.model"
     color="success">
     {{ snackBar.message }}
@@ -67,16 +80,24 @@
   <sensor-form 
     :dialog="dialog"
     @newSensor="pushSensor"
-    @updateSensor="getSensores"
+    @updateSensor="getSensores(); showSnackBar('HeartBeat Actualizado') "
     @closeDialog="dialog = false">
   </sensor-form>
+
+  <cluster 
+    :dialog="dlgCluster" 
+    @closeDialog="dlgCluster = false">
+  </cluster>
 </section>
 </template>
 
 <script>
 import Vue from 'vue'
 import {sensorService} from '@/services/Sensor.service'
+import {historicalService} from '@/services/Historical.service'
 import SensorForm from '@/components/Sensor/SensorForm'
+import Cluster from '@/components/Cluster/Cluster'
+
 export default {
   data () {
     return {
@@ -92,17 +113,23 @@ export default {
       sensores: [],
       sensor: {},
       dialog: false,
+      dlgCluster: false,
       dlgEliminarSensor: false,
       snackBar: {
         model: false,
-        message: ''
+        message: '',
+        top: false
       }
     }
   },
-  components: {SensorForm},
+  components: {SensorForm, Cluster},
   mounted () {
     let vm = this
     vm.getSensores()
+    setInterval(() => {
+      vm.getSensores()
+      vm.showSnackBar('Heartbeats Actualizados', true)
+    }, 60000)
   },
   methods: {
     getSensores () {
@@ -119,7 +146,6 @@ export default {
       let vm = this
       vm.dlgEliminarSensor = false
       sensorService.destroy(sensor._id).then(response => {
-        console.log(response)
         vm.getSensores()
         vm.showSnackBar('El heartbeat ' + sensor.name + ' fue eliminado')
       })
@@ -130,10 +156,25 @@ export default {
       else vm.$emit('crear')
       vm.dialog = true
     },
-    showSnackBar (message) {
+    showSnackBar (message, top) {
       let vm = this
+      if (top) vm.snackBar.top = true
+      else vm.snackBar.top = false
       vm.snackBar.message = message
       vm.snackBar.model = true
+    },
+    submitHistorical () {
+      let vm = this
+      let data = [
+        {_id: '5a95e273a2662f40a2eb0f67', intensity: 2.1},
+        {_id: '5a95e2b2a2662f40a2eb0f68', intensity: 2.2},
+        {_id: '5a95e2f8a2662f40a2eb0f69', intensity: 1.9}
+      ]
+      historicalService.save(data).then(data => {
+        vm.showSnackBar('Informacion enviada')
+      }, response => {
+        vm.showSnackBar('Error al enviar la informacion')
+      })
     }
   }
 }
