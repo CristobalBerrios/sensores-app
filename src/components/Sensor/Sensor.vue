@@ -165,11 +165,15 @@ export default {
     },
     submitHistorical () {
       let vm = this
-      let data = [
-        {_id: '5a95e273a2662f40a2eb0f67', intensity: 2.1},
-        {_id: '5a95e2b2a2662f40a2eb0f68', intensity: 2.2},
-        {_id: '5a95e2f8a2662f40a2eb0f69', intensity: 1.9}
-      ]
+      let data = []
+      let event = {}
+      vm.sensores.forEach(sensor => {
+        event = {
+          _id: sensor._id,
+          intensity: 2.1
+        }
+        data.push(event)
+      })
       historicalService.save(data).then(data => {
         vm.showSnackBar('Informacion enviada')
       }, response => {
